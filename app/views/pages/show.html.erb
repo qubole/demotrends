@@ -1,0 +1,41 @@
+<% content_for :title, "Trending Topics: Wikipedia Trends for: " + @page.title %>
+<% content_for :robots, 'NAME="ROBOTS" CONTENT="NOINDEX"' %>
+<div id="first-section" class="section">
+
+    <div id = "timeline_chart" class="left">
+        <h3>Daily Pageviews for <span><%= truncate(@page.title, 35) %></span> <span style="text-align:right;"><%= link_to image_tag("csv_icon.png", :alt => 'Trend CSV file for ' + @page.title,  :size =>"16x18"), :controller => "pages", :action => "csv", :id => @page  %></span></h3>  
+        <%= render :partial => "timeline"  %>
+    </div>
+
+    <div id="news" class="right">
+        <%= render :partial => "news_results"  %> 
+    </div>	<!-- #news -->		
+
+    <div class="clear">
+    </div> <!-- .clear -->
+
+</div> <!-- first-section -->
+
+<div id="second-section" class="section">
+    <h3><%= link_to @page.title, 'http://en.wikipedia.org/wiki/' + @page.url, :class => "wikilink" %> on Wikipedia</h3>
+    <iframe 
+        name="cwindow"
+        class="wikiframe" 
+        height="800" 
+        src="<%='http://en.wikipedia.org/wiki/' + @page.url %>">
+    </iframe>  
+</div>
+
+<!--div class="left">
+
+
+  <div id ="wikipedia">
+<BR><BR>  
+  <h2><em></em></h2>
+<BR><BR>
+  <iframe name="cwindow" style="border:0px double " width=890 height=890 src="<%='http://en.wikipedia.org/wiki/' + @page.url %>"></iframe>  
+  </div>
+</div-->
+
+
+

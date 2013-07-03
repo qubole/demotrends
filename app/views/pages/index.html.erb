@@ -1,0 +1,84 @@
+
+<div id="first-section" class="section">
+  <% if params[:search] %>
+    <!-- do nothing -->
+ <% else %>    
+    <div id="timeline_chart" class="left">
+      <h3>Hot Right Now: <%= link_to truncate(@page.title,35), @page %> </h3>            
+      <%= render :partial => "timeline" %>
+     
+
+  	</div> <!-- #timeline_chart -->	
+
+    <div id="news" class="right">
+        <%= render :partial => "news_results"  %> 
+    </div>	<!-- #news -->		
+<% end %>  	
+
+    <div class="clear">
+    </div> <!-- .clear -->
+
+</div> <!-- first-section -->
+
+<div id="second-section" class="section">
+    
+    <div id="main-column" class="left">
+    
+    
+        <div id="biggest-movers" class="left">
+            <% if params[:search] %>
+              <h3>Search Results for <span><%= params[:search][:query] %></span></h3> 
+              <% content_for :title, 'Trending Topics: Search Results for "' + params[:search][:query] +'"' %>
+              <% cache ({:page => params[:page], :query => params["search"]["query"]}) do %>
+                  <%= render :partial => "movers"  %> 
+              <% end %> <! --#cache -->   
+              <BR>
+              <center>
+                  <span class="grey"><%= will_paginate @pages, :page_links=> false %></span>
+              </center> 
+              <BR>
+              
+            <% else %>
+              <h3>Trending Topics (Last 30 Days)</h3>
+              <% content_for :title, "Trending Topics: Search for Topics & News Trending Now" %> 
+              <% cache ({:page => params[:page] }) do %>
+                  <%= render :partial => "movers"  %> 
+              <% end %> <! --#cache -->   
+              <BR>
+              <center>
+                  <span class="grey"><%= will_paginate @pages, :page_links=> false %></span>
+              </center> 
+              <BR>                                       
+            <% end %>  	
+                         
+          </div> <!-- #biggest movers -->
+
+    </div> <!-- #main column left -->
+    
+
+    <div id="side-column" class="right">
+      <% cache 'rising' do %>
+          <div id="rising-articles">
+            <h3>Rising (Last 24 hours):</h3>   
+     
+              <table id="rising">                  
+                <% DailyTrend.find(:all, :limit =>  APP_CONFIG['sidebar_articles'] ,:conditions => ["page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", APP_CONFIG['blacklist']], :order => 'trend DESC').each_with_index do |rising, index| %>
+                  <tr >
+                  <td class="risingtitle"><p><%= link_to (index + 1 + APP_CONFIG['articles_per_page']*(params[:page].to_i - 1)).to_s + ". " + truncate(rising.page.title,35), rising.page, :class => "articlelink"  %></p><%= link_to image_tag(rising.page.sparkline('999999', 30).to_url, :alt => 'Recent Trend for ' + rising.page.title ) , rising.page %><BR>
+                  Pageviews: <%= number_with_delimiter(rising.page.total_pageviews, ',') %></td> 
+                  <% unless APP_CONFIG['yahoo_boss_id'] == "REPLACEME" %>
+                    <td  ><%= link_to image_tag(rising.page.picture, :alt => rising.page.title, :size =>rising.page.picture_size(70)), rising.page %></td>                    
+                  <% end %>
+                  </tr>
+                <% end %>
+              </table>
+
+          </div> <!-- #rising -->
+      <% end %> <! --#cache -->    
+    </div>
+
+
+    <div class="clear">
+    </div>
+    
+</div> <!-- second-section -->

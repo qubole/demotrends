@@ -1,0 +1,41 @@
+development:
+  rails_application_port: 3000
+  domain: 'www.REPLACEME.org'  
+  admin_user: REPLACEME
+  admin_password: REPLACEME
+  articles_per_page: 50  
+  sidebar_articles: 19
+  tracker_id: "UA-REPLACEME"
+  yahoo_boss_id: "REPLACEME"
+  verify_v1: "MK/gfdgdfgdfgfdgfdgfdgfdgfd"   
+  protocol: http 
+  blacklist: 
+  - 10447140 
+
+test:
+  rails_application_port: 3000
+  domain: 'www.REPLACEME.org'  
+  admin_user: REPLACEME
+  admin_password: REPLACEME
+  articles_per_page: 50 
+  sidebar_articles: 19
+  tracker_id: "UA-REPLACEME"
+  yahoo_boss_id: "REPLACEME"
+  verify_v1: "MK/gfdgdfgdfgfdgfdgfdgfdgfd"   
+  protocol: http 
+  blacklist: 
+  - 10447140       
+
+production:
+  rails_application_port: 3000
+  domain: 'www.REPLACEME.org'  
+  admin_user: REPLACEME
+  admin_password: REPLACEME
+  articles_per_page: 50
+  sidebar_articles: 19
+  tracker_id: "UA-REPLACEME"
+  yahoo_boss_id: "REPLACEME"
+  verify_v1: "MK/gfdgdfgdfgfdgfdgfdgfdgfd"   
+  protocol: http
+  blacklist: 
+  - 10447140
