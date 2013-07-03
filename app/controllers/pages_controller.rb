@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   # GET /pages
   protect_from_forgery :only => [:create, :update, :destroy]
   layout 'pages'#, :except => [:auto_complete_for_search_query]
-  #use_google_charts
+  use_google_charts
 
   caches_page :show
   caches_page :csv  
@@ -24,7 +24,8 @@ class PagesController < ApplicationController
     end 
   
     # random rising, rotates
-    @page = DailyTrend.find(:all, :limit => APP_CONFIG['articles_per_page'] , :order => 'trend DESC', :conditions => ["page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", APP_CONFIG['blacklist']] ).rand.page   
+    @page = DailyTrend.find(:all, :limit => APP_CONFIG['articles_per_page'] , :order => 'trend DESC', :conditions => ["page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", APP_CONFIG['blacklist']] ).sample.page  
+    logger.info("Page is: #{@page.inspect}")
       
     unless params[:page]
       params[:page]='1'

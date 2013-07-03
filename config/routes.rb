@@ -37,7 +37,7 @@ Trend::Application.routes.draw do
     end
   end
 
-
   match '/' => 'pages#index'
   root  :to => 'pages#index'
+  match '/:controller(/:action(/:id))'
 end

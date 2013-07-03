@@ -26,6 +26,7 @@ gem 'rake', '=10.0.4'
 gem "ya2yaml"
 gem "json"
 gem "bossman"
+gem "will_paginate"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
