@@ -21,8 +21,8 @@ fi
 
 pushd ${app_dir_}
 
-passenger stop -p 80
+sudo passenger stop -p 80
 
-passenger start -p 80 -d -e ${app_env_} --user ${user_}
+sudo passenger start -p 80 -d -e ${app_env_} --user ${user_}
 
 
