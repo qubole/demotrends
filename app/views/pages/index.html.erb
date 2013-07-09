@@ -1,25 +1,3 @@
-logger.info(@page.inspect)
-<div id="first-section" class="section">
-  <% if params[:search] %>
-    <!-- do nothing -->
- <% else %>    
-    <div id="timeline_chart" class="left">
-      <h3>Hot Right Now: <%= link_to @page.title.truncate(35), @page %> </h3>            
-      <%= render :partial => "timeline" %>
-     
-
-  	</div> <!-- #timeline_chart -->	
-
-    <div id="news" class="right">
-        <%= render :partial => "news_results"  %> 
-    </div>	<!-- #news -->		
-<% end %>  	
-
-    <div class="clear">
-    </div> <!-- .clear -->
-
-</div> <!-- first-section -->
-
 <div id="second-section" class="section">
     
     <div id="main-column" class="left">
@@ -65,7 +43,6 @@ logger.info(@page.inspect)
                 <% DailyTrend.find(:all, :limit =>  APP_CONFIG['sidebar_articles'] ,:conditions => ["page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", APP_CONFIG['blacklist']], :order => 'trend DESC').each_with_index do |rising, index| %>
                   <tr >
                   <td class="risingtitle"><p><%= link_to (index + 1 + APP_CONFIG['articles_per_page']*(params[:page].to_i - 1)).to_s + ". " + rising.page.title.truncate(35), rising.page, :class => "articlelink"  %></p><%= link_to image_tag(rising.page.sparkline('999999', 30).to_url, :alt => 'Recent Trend for ' + rising.page.title ) , rising.page %><BR>
-                  Pageviews: <%= rising.page.total_pageviews %></td> 
                   <% unless APP_CONFIG['yahoo_boss_id'] == "REPLACEME" %>
                     <td  ><%= link_to image_tag(rising.page.picture, :alt => rising.page.title, :size =>rising.page.picture_size(70)), rising.page %></td>                    
                   <% end %>

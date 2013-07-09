@@ -25,31 +25,12 @@
 
     	<div id="header">
 
-        
-            <div id="search">
-        		<div id="help">
-        		 <%= link_to "All News", "/", :class =>"dark" %> | <%= link_to "People", "/people", :class =>"dark" %> | <%= link_to "Finance", "/finance", :class =>"dark" %>
-        		</div>
-        
-                <div class="search_field">
-                	<form method="get" action="/pages">
-                		<div class="search_form">
-                		    <span>Find Topics: </span><%= render :partial=>"pages/search_pane" %>
-                		</div>
-                	</form>		
-                	
-  
-                	
-                	
-                </div>
-            </div> <!-- #search -->
-
             <div id="billboard">
-            <h1><%= link_to "Trending Topics", "/", :class =>"dark" %></h1>                                            		            
+            <h1><%= link_to "Wiki Topics Trends", "/", :class =>"dark" %></h1>                                            		            
                 <h2>
-                    Hot Wikipedia Topics, Served Fresh Daily.<br/>
+                    Trending Wikipedia Topics, Served Fresh Daily.<br/>
                     <span>                 
-                        Built by <a href="http://www.datawrangling.com">Data Wrangling</a> with <a href="http://www.cloudera.com/hadoop-ec2">Cloudera Hadoop</a>
+                        Inspired  by <a href="http://www.datawrangling.com">Data Wrangling</a>
                     </span>
                 </h2>
             </div> <!-- #billboard -->
@@ -77,31 +58,9 @@
     		<!-- <%= auto_discovery_link_tag(:rss, {:controller=>"daily_trends", :action => "index"}, {:title => "RSS Feed"}) %> -->
     	
     		      <%= link_to("XML feed", pages_path(:format => :xml, :page => 1)) %> | <%= link_to "Contact",  { :controller => "contact" } %> | <%= link_to "About", { :controller => "about" } %> | 
-                &copy; Copyright 2009 <a href="http://www.datawrangling.com">Data Wrangling, LLC</a>
+                &copy; Copyright 2013 <a href="http://www.qubole.com">Qubole</a>
     	    </div> <!-- left -->
 	    
-    	    <div class="right">
-    	        <table id="brands">
-    	            <tr>
-                <td><a href="http://www.datawrangling.com" title="DataWrangling.com">
-                    <%= image_tag("dg-logo-dark-1.png", :size =>"120x36") %></a>  
-                </td>
-                <td>
-                <a href="http://www.cloudera.com/" title="Cloudera">
-                    <%= image_tag("cloudera-logo.png", :size =>"96x24") %></a>
-                </td>
-                <td>
-                <a href="http://www.napkinsketches.com" title="Napkin Sketches">
-                    <%= image_tag("ns-logo.gif", :size =>"50x32") %></a>
-                </td>
-                <td>
-                <a href="http://aws.amazon.com/" title="Amazon AWS">
-                    <%= image_tag("logo_aws.gif", :size =>"82x30") %></a>
-                    </tr>
-                </td>
-                </table>
-    	    </div> <!-- right -->
-
             <br/>
             <br/>
             <br/>

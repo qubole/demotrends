@@ -7,7 +7,6 @@ class PagesController < ApplicationController
   caches_page :show
   caches_page :csv  
   
-
   def auto_complete_for_search_query
     # look for autosuggest results in memcached
     unless read_fragment({:query => params["search"]["query"]}) 
@@ -25,7 +24,6 @@ class PagesController < ApplicationController
   
     # random rising, rotates
     @page = DailyTrend.find(:all, :limit => APP_CONFIG['articles_per_page'] , :order => 'trend DESC', :conditions => ["page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", APP_CONFIG['blacklist']] ).sample.page  
-    logger.info("Page is: #{@page.inspect}")
       
     unless params[:page]
       params[:page]='1'
