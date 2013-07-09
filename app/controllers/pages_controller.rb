@@ -12,9 +12,13 @@ class PagesController < ApplicationController
     unless params[:date]
       params[:date]= @dates[0]
     end  
+    if params[:date]
+      params[:date]= Date.strptime(params[:date],"%m/%d/%Y")
+    end  
+
     @min =  @dates.min
     @max =  @dates.max
-
+    
     # monthly trends 
     @monthlytrend= MonthlyTrend.find(:all, :limit => APP_CONFIG['articles_per_page'] , :order => 'trend DESC', :conditions => ["date = ? and page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", params[:date], APP_CONFIG['blacklist']])
     @pages =[]
