@@ -39,9 +39,7 @@ $(function() {
         <div id="biggest-movers" class="left">
               <h3>Monthly Trends (<%= (params[:date]- 30.days).strftime('%d-%m-%Y') %> - <%= params[:date].strftime('%d-%m-%Y') %> )</h3>
               <% content_for :title, "Trending Topics: Powered by Qubole" %> 
-              <% cache ({:page => params[:page] }) do %>
                   <%= render :partial => "movers"  %> 
-              <% end %> <! --#cache -->   
               <BR>
               <BR>                                       
           </div> <!-- #biggest movers -->
@@ -49,7 +47,6 @@ $(function() {
     
 
     <div id="side-column" class="right">
-      <% cache 'rising' do %>
           <div id="rising-articles">
             <h3>Trending on <%= params[:date].strftime('%d-%m-%Y') %></h3>   
      
@@ -65,7 +62,6 @@ $(function() {
               </table>
 
           </div> <!-- #rising -->
-      <% end %> <! --#cache -->    
     </div>
 
 
