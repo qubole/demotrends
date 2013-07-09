@@ -10,10 +10,6 @@
     <%= stylesheet_link_tag 'trends' %>
     <%= javascript_include_tag :application %> 
     
-    <script type="text/javascript">
-    window.onload = function() {
-      document.getElementById('search_query').focus();
-    }
     </script>    
 <meta name="verify-v1" content=<%= APP_CONFIG['verify_v1'] %> >
 </head>
@@ -25,14 +21,17 @@
 
     	<div id="header">
 
+        <div id="logo">
+         <h1><a href="http://www.qubole.com/">Qubole</a></h1>
+        </div>
+
             <div id="billboard">
-            <h1><%= link_to "Wiki Topics Trends", "/", :class =>"dark" %></h1>                                            		            
+            <div><%= link_to "Wiki Topics Trends", "/", :class =>"dark", :id => "wikitrend" %></h1>                                            		            
                 <h2>
-                    Trending Wikipedia Topics, Served Fresh Daily.<br/>
                     <span>                 
-                        Inspired  by <a href="http://www.datawrangling.com">Data Wrangling</a>
+                        Inspired  by <a href="http://www.datawrangling.com">Data Wrangling</a>  Powered by  <a href="http://www.qubole.com">Qubole</a>
                     </span>
-                </h2>
+                </div>
             </div> <!-- #billboard -->
 
             <div class="clear">

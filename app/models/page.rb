@@ -14,10 +14,12 @@ class Page < ActiveRecord::Base
     
   def normed_daily_pageviews(on_date, range=30)
     timeline = self.daily_timelines.where("on_date = ?", on_date).first
-    @pageviews = timeline.pageviews.split("/002").map{ |x| x.to_i }
-    @dates = timeline.dates.split("/002")    
+    @pageviews = timeline.pageviews.split("\002").map{ |x| x.to_i }
+    @dates = timeline.dates.split("\002")    
     date_view_hash = {}
-    @dates.each_with_index do |date, index|
+    logger.debug("#{@dates.inspect}")
+        
+      @dates.each_with_index do |date, index|
       date_view_hash[date] = @pageviews[index]
     end
     logger.debug("#{date_view_hash.inspect}")
@@ -30,13 +32,13 @@ class Page < ActiveRecord::Base
 
   def find_total_pageviews(on_date)
     timeline = self.daily_timelines.where("on_date = ?", on_date).first
-    @pageviews = JSON.parse(timeline.pageviews).map{ |x| x.to_i }
+    @pageviews = timeline.pageviews.split("\002").map{ |x| x.to_i }
     return @pageviews.inject(0,:+)
   end
    
-  def linechart( on_date, fillcolor='76A4FB', range=30)
+  def linechart( on_date, fillcolor='8fc800', range=30)
     dataset = GC4R::API::GoogleChartDataset.new :data => self.normed_daily_pageviews(on_date,range), 
-      :color => '999999', :fill => ['B', fillcolor ,'0','0','0']
+      :color => '888888', :fill => ['B', fillcolor ,'0','0','0']
     # red => FF0000
     # lightblue => 76A4FB
     # green => 33FF00
@@ -48,9 +50,9 @@ class Page < ActiveRecord::Base
     return @chart
   end  
   
-  def sparkline( on_date, fillcolor='76A4FB', range=30)
+  def sparkline( on_date, fillcolor='8fc800', range=30)
     dataset = GC4R::API::GoogleChartDataset.new :data => self.normed_daily_pageviews(on_date,range), 
-      :color => '999999', :fill => ['B', fillcolor ,'0','0','0']
+      :color => '888888', :fill => ['B', fillcolor ,'0','0','0']
     # red => FF0000
     # lightblue => 76A4FB
     # green => 33FF00
@@ -93,7 +95,7 @@ class Page < ActiveRecord::Base
   
   def sorted_dates(on_date)
    timeline = self.daily_timelines.where("on_date = ?", on_date).first
-   rawdates = timeline.dates.split("/002")
+   rawdates = timeline.dates.split("\002")
    @data = []
    rawdates.each do |date|
      @data << DateTime.strptime( date.to_s, "%Y%m%d")
@@ -104,8 +106,8 @@ class Page < ActiveRecord::Base
   
  def date_pageview_array(on_date)
     timeline = self.daily_timelines.where("on_date = ?", on_date).first
-    rawdates = timeline.dates.split("/002")
-    pageviews = timeline.pageviews.split("/002").map{ |x| x.to_i }    
+    rawdates = timeline.dates.split("\002")
+    pageviews = timeline.pageviews.split("\002").map{ |x| x.to_i }    
     @data = []
     rawdates.each_with_index do |date, index|
       @data << [DateTime.strptime( date.to_s, "%Y%m%d").strftime('%D'), pageviews[index]]
@@ -116,8 +118,8 @@ class Page < ActiveRecord::Base
   
   def timeline(on_date)
     timeline = self.daily_timelines.where("on_date = ?", on_date).first
-    rawdates = timeline.dates.split("/002")
-    pageviews = timeline.pageviews.split("/002").map{ |x| x.to_i }
+    rawdates = timeline.dates.split("\002")
+    pageviews = timeline.pageviews.split("\002").map{ |x| x.to_i }
         
     @data ={}
     rawdates.each_with_index do |date, index|

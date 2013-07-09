@@ -1,12 +1,5 @@
 <% content_for :title, "Trending Topics: Wikipedia Trends for: " + @page.title %>
 <% content_for :robots, 'NAME="ROBOTS" CONTENT="NOINDEX"' %>
-<div id="first-section" class="section">
-
-    <div id = "timeline_chart" class="left">
-        <h3>Daily Pageviews for <span><%= @page.title.truncate(35) %></span></h3>  
-    </div>
-
-</div> <!-- first-section -->
 
 <div id="second-section" class="section">
     <h3><%= link_to @page.title, 'http://en.wikipedia.org/wiki/' + @page.url, :class => "wikilink" %> on Wikipedia</h3>

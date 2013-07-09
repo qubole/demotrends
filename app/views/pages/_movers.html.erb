@@ -3,13 +3,13 @@
     <th>Rank</th>
     <th>Views</th>
     <th>Trend</th>
-    <th>Article</th>
+    <th style="text-align:left;">Article</th>
   </tr>             
   <% @pages.each_with_index do |page, index| %>
     <tr>
       <td class="center"><%= index + 1 + APP_CONFIG['articles_per_page']*(params[:page].to_i - 1) %></td>
       <td class="pageviews"><%= page.find_total_pageviews(params[:date]) %></td>
-      <td><%= link_to image_tag(page.sparkline(params[:date], '999999', 30).to_url, :alt => 'Recent Trend for ' + page.title ) , page %></td>
+      <td><%= link_to image_tag(page.sparkline(params[:date]).to_url, :alt => 'Recent Trend for ' + page.title ) , page %></td>
       <td>
         <%= link_to page.title.truncate(35), page, :class => "articlelink"  %>
       <!--<%= link_to 'Wikilink', 'http://en.wikipedia.org/wiki/' + page.url, :class => "wikilink" %> --></td>

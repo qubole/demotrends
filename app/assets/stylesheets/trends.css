@@ -37,6 +37,25 @@ body {
 
 #billboard {
     float: right;
+    margin-top: 20px;
+    margin-right: 60px;
+}
+
+#logo {
+    float: left;
+}
+
+#wikitrend {
+    font-size: 225%;
+}
+
+#logo h1 a {
+    background: url("/assets/logo.png") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    height: 76px;
+    margin-top: -21px;
+    text-indent: -9999px;
+    width: 196px;
 }
 
 #search {
@@ -115,11 +134,30 @@ iframe.wikiframe {
     font-size: 95%;
 }
 
+i.arrow {
+ padding: 0px; margin: 0px; display: inline-block;
+}
+.arrow-left {
+ width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 5px 0 5px 10px;
+	border-color: transparent transparent transparent #090c0f;
+}
+
+.arrow-down {
+ width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 10px 5px 0 5px;
+	border-color: #090c0f transparent transparent transparent;
+}
 /* Headings */
 
 h1 {
-    margin: 10px 10px 10px 0;
+    padding: 10px 10px 10px 0;
     font-size: 225%;
+    margin-bottom: 10px;
 }
 
 h2 {
@@ -197,7 +235,7 @@ table#rising {
 /* Links */
 
 a {
-    color: #F27405;
+    color: #226E78;
     text-decoration: none;
 }
 
@@ -210,7 +248,7 @@ a img {
 }
 
 #rising-articles a {
-    color: #1B6D03;
+    color: #C12B28;
 }
 
 #dropping-articles a {
