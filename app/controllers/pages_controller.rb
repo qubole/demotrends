@@ -16,14 +16,17 @@ class PagesController < ApplicationController
   end  
     
   def index
-    if params[:search]
-      @pages = Page.title_like(params["search"]["query"]).paginate(:page => params[:page], :order => 'monthly_trend DESC', :per_page => APP_CONFIG['articles_per_page'])  
-    else   
-      @pages = Page.where("pages.id NOT IN (?) and featured=0", APP_CONFIG['blacklist']).paginate(:page => params[:page] , :per_page => APP_CONFIG['articles_per_page'])   
-    end 
-  
+    unless params[:date]
+      params[:date]='2013-06-30'
+    end  
+    # monthly trends 
+    @monthlytrend= MonthlyTrend.find(:all, :limit => APP_CONFIG['articles_per_page'] , :order => 'trend DESC', :conditions => ["date = ? and page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", params[:date], APP_CONFIG['blacklist']])
+    @pages =[]
+    @monthlytrend.each do |mt|
+      @pages << mt.page
+    end  
     # random rising, rotates
-    @page = DailyTrend.find(:all, :limit => APP_CONFIG['articles_per_page'] , :order => 'trend DESC', :conditions => ["page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", APP_CONFIG['blacklist']] ).sample.page  
+    @page = DailyTrend.find(:all, :limit => APP_CONFIG['articles_per_page'] , :order => 'trend DESC', :conditions => ["date = ? and page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", params[:date], APP_CONFIG['blacklist']] ).sample.page  
       
     unless params[:page]
       params[:page]='1'
@@ -31,8 +34,6 @@ class PagesController < ApplicationController
       
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @pages }
-      format.atom { render :layout => false}
     end      
   end
 
@@ -42,7 +43,6 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @page }
     end
   end
   
@@ -52,12 +52,11 @@ class PagesController < ApplicationController
   def csv
     @page = Page.find(params[:id]) 
     csv_array = ["Date,Pageviews"]
-    @page.date_pageview_array.each do |pair|
-      csv_array << "#{pair[0]},#{pair[1]}"
+    @page.daily_page_views.each do |dpv|
+      csv_array << "#{dpv.date},#{dpv.pageviews}"
     end
     send_data csv_array.join("\n"), :type => 'text/csv; charset=utf-8', :filename=>"#{@page.url}.csv",
     :disposition => 'attachment'
-    
   end  
 
 end

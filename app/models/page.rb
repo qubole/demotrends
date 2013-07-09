@@ -1,33 +1,41 @@
 class Page < ActiveRecord::Base
-  has_one :daily_timeline
+  has_many :daily_timelines
   has_one :daily_trend
   has_one :person
   has_one :company
-  has_one :weekly_trend 
-  has_many :daily_page_views, :order => "sequence_number" 
-  scope :title_like, lambda { |query| { :conditions => ['title like ? and featured=0', "#{query}%"], :order => '`monthly_trend` DESC', :limit => 12 } }
-  scope :title_search, lambda { |query| { :conditions => ['title like ?', "#{query}%"], :order => 'monthly_trend DESC', :limit => 14 } }  
-  scope :full_title_like, lambda { |query| { :conditions => ['title like ? and id NOT IN (?) and featured=0', "%#{query}%", APP_CONFIG['blacklist']], :order => '`monthly_trend` DESC', :limit => 14 } }  
+  has_one :monthly_trend 
+  has_many :daily_page_views, :order => "date" 
+  #scope :title_like, lambda { |query| { :conditions => ['title like ? and featured=0', "#{query}%"], :order => '`monthly_trend` DESC', :limit => 12 } }
+  #scope :title_search, lambda { |query| { :conditions => ['title like ?', "#{query}%"], :order => 'monthly_trend DESC', :limit => 14 } }  
+  #scope :full_title_like, lambda { |query| { :conditions => ['title like ? and id NOT IN (?) and featured=0', "%#{query}%", APP_CONFIG['blacklist']], :order => '`monthly_trend` DESC', :limit => 14 } }  
   
   # for images in "people" trends, optional
   BOSSMan.application_id = APP_CONFIG['yahoo_boss_id']
     
-  def normed_daily_pageviews( range=30)
-    @pageviews = JSON.parse(self.daily_timeline.pageviews)
-    @dates = JSON.parse(self.daily_timeline.dates)    
+  def normed_daily_pageviews(on_date, range=30)
+    timeline = self.daily_timelines.where("on_date = ?", on_date).first
+    @pageviews = timeline.pageviews.split("/002").map{ |x| x.to_i }
+    @dates = timeline.dates.split("/002")    
     date_view_hash = {}
     @dates.each_with_index do |date, index|
       date_view_hash[date] = @pageviews[index]
     end
+    logger.debug("#{date_view_hash.inspect}")
     sorted_pageviews = []
     date_view_hash.keys.sort.each { |key| sorted_pageviews << date_view_hash[key] }
     maxval = sorted_pageviews[-range,range].max
     normed_values = sorted_pageviews[-range,range].collect { |x| x * (110.0 / maxval)}    
     return normed_values
   end
-  
-  def linechart( fillcolor='76A4FB', range=30 )
-    dataset = GC4R::API::GoogleChartDataset.new :data => self.normed_daily_pageviews(range), 
+
+  def find_total_pageviews(on_date)
+    timeline = self.daily_timelines.where("on_date = ?", on_date).first
+    @pageviews = JSON.parse(timeline.pageviews).map{ |x| x.to_i }
+    return @pageviews.inject(0,:+)
+  end
+   
+  def linechart( on_date, fillcolor='76A4FB', range=30)
+    dataset = GC4R::API::GoogleChartDataset.new :data => self.normed_daily_pageviews(on_date,range), 
       :color => '999999', :fill => ['B', fillcolor ,'0','0','0']
     # red => FF0000
     # lightblue => 76A4FB
@@ -40,8 +48,8 @@ class Page < ActiveRecord::Base
     return @chart
   end  
   
-  def sparkline( fillcolor='76A4FB', range=30 )
-    dataset = GC4R::API::GoogleChartDataset.new :data => self.normed_daily_pageviews(range), 
+  def sparkline( on_date, fillcolor='76A4FB', range=30)
+    dataset = GC4R::API::GoogleChartDataset.new :data => self.normed_daily_pageviews(on_date,range), 
       :color => '999999', :fill => ['B', fillcolor ,'0','0','0']
     # red => FF0000
     # lightblue => 76A4FB
@@ -53,7 +61,6 @@ class Page < ActiveRecord::Base
     @chart.data = data
     return @chart
   end  
-  
   
   def picture
     puts self.title
@@ -84,30 +91,33 @@ class Page < ActiveRecord::Base
     end  
   end      
   
+  def sorted_dates(on_date)
+   timeline = self.daily_timelines.where("on_date = ?", on_date).first
+   rawdates = timeline.dates.split("/002")
+   @data = []
+   rawdates.each do |date|
+     @data << DateTime.strptime( date.to_s, "%Y%m%d")
+   end
+   @data.sort
+ end  
   
-  def sorted_dates
-    rawdates = JSON.parse(self.daily_timeline.dates)
-    @data = []
-    rawdates.each do |date|
-      @data << DateTime.strptime( date.to_s, "%Y%m%d")
-    end
-    @data.sort
-  end  
   
-  def date_pageview_array
-    rawdates = JSON.parse(self.daily_timeline.dates)
-    pageviews = JSON.parse(self.daily_timeline.pageviews)    
+ def date_pageview_array(on_date)
+    timeline = self.daily_timelines.where("on_date = ?", on_date).first
+    rawdates = timeline.dates.split("/002")
+    pageviews = timeline.pageviews.split("/002").map{ |x| x.to_i }    
     @data = []
     rawdates.each_with_index do |date, index|
       @data << [DateTime.strptime( date.to_s, "%Y%m%d").strftime('%D'), pageviews[index]]
     end
-    return @data
-  end
+   return @data
+ end
   
   
-  def timeline
-    rawdates = JSON.parse(self.daily_timeline.dates)
-    pageviews = JSON.parse(self.daily_timeline.pageviews)
+  def timeline(on_date)
+    timeline = self.daily_timelines.where("on_date = ?", on_date).first
+    rawdates = timeline.dates.split("/002")
+    pageviews = timeline.pageviews.split("/002").map{ |x| x.to_i }
         
     @data ={}
     rawdates.each_with_index do |date, index|
@@ -115,5 +125,43 @@ class Page < ActiveRecord::Base
     end
     return @data
   end
-  
+
+  def sorted_dates_old
+  @data = []
+  self.daily_page_views.each do |dpv|
+    @data << DateTime.strptime( dpv.date.to_s, "%Y%m%d")
+  end
+  @data.sort
+  end 
+
+  def date_pageview_array_old
+   @data = []
+   self.daily_page_views.each do |dpv|
+     @data << [DateTime.strptime( dpv.date.to_s, "%Y%m%d").strftime('%D'), dpv.pageviews]
+   end
+   return @data
+ end
+ 
+def timeline_old
+  @data ={}
+  self.daily_page_views.each do |dpv|
+    @data[DateTime.strptime( dpv.date.to_s, "%Y%m%d")] = {:wikipedia_page_views => dpv.pageviews}
+  end
+  return @data
+end
+
+def normed_daily_pageviews_old( range=30)
+  date_view_hash = {}
+  self.daily_page_views.each do |dpv|
+    date_view_hash[dpv.date] = dpv.pageviews
+  end
+  logger.debug("#{date_view_hash.inspect}")
+  sorted_pageviews = []
+  date_view_hash.keys.sort.each { |key| sorted_pageviews << date_view_hash[key] }
+  logger.debug("#{sorted_pageviews.inspect}")
+  maxval = sorted_pageviews[-range,range].max
+  normed_values = sorted_pageviews[-range,range].collect { |x| x * (110.0 / maxval)}    
+  return normed_values
+end
+
 end
