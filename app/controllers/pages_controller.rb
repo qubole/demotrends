@@ -9,18 +9,13 @@ class PagesController < ApplicationController
     
   def index
     @dates=MonthlyTrend.select(:date).order("date desc").map(&:date).uniq
-    unless params[:date]
-      params[:date]= @dates[0]
-    end  
-    if params[:date]
-      params[:date]= Date.strptime(params[:date],"%m/%d/%Y")
-    end  
+    @on_date = params[:date] ? Date.strptime(params[:date],"%m/%d/%Y") : @dates[0]
 
     @min =  @dates.min
     @max =  @dates.max
     
     # monthly trends 
-    @monthlytrend= MonthlyTrend.find(:all, :limit => APP_CONFIG['articles_per_page'] , :order => 'trend DESC', :conditions => ["date = ? and page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", params[:date], APP_CONFIG['blacklist']])
+    @monthlytrend= MonthlyTrend.find(:all, :limit => APP_CONFIG['articles_per_page'] , :order => 'trend DESC', :conditions => ["date = ? and page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", @on_date, APP_CONFIG['blacklist']])
     @pages =[]
     @monthlytrend.each do |mt|
       @pages << mt.page

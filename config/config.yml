@@ -4,7 +4,7 @@ development:
   admin_user: REPLACEME
   admin_password: REPLACEME
   articles_per_page: 50  
-  sidebar_articles: 19
+  sidebar_articles: 25
   tracker_id: "UA-REPLACEME"
   yahoo_boss_id: "REPLACEME"
   verify_v1: "MK/gfdgdfgdfgfdgfdgfdgfdgfd"   
@@ -32,7 +32,7 @@ production:
   admin_user: REPLACEME
   admin_password: REPLACEME
   articles_per_page: 50
-  sidebar_articles: 19
+  sidebar_articles: 25
   tracker_id: "UA-REPLACEME"
   yahoo_boss_id: "REPLACEME"
   verify_v1: "MK/gfdgdfgdfgfdgfdgfdgfdgfd"   
