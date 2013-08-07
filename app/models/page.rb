@@ -13,6 +13,7 @@ class Page < ActiveRecord::Base
   BOSSMan.application_id = APP_CONFIG['yahoo_boss_id']
     
   def normed_daily_pageviews(on_date, range=30)
+    logger.debug("Date = #{on_date}")
     timeline = self.daily_timelines.where("on_date = ?", on_date).first
     @pageviews = timeline.pageviews.split("\002").map{ |x| x.to_i }
     @dates = timeline.dates.split("\002")    
@@ -25,6 +26,7 @@ class Page < ActiveRecord::Base
     logger.debug("#{date_view_hash.inspect}")
     sorted_pageviews = []
     date_view_hash.keys.sort.each { |key| sorted_pageviews << date_view_hash[key] }
+    range = sorted_pageviews.length
     maxval = sorted_pageviews[-range,range].max
     normed_values = sorted_pageviews[-range,range].collect { |x| x * (110.0 / maxval)}    
     return normed_values
