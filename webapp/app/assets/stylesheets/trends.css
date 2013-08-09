@@ -1,0 +1,288 @@
+/*
+Reference Colors
+
+Color Scheme 1
+White: #F0F2F2
+Light Orange: F29F05
+Dark Orange: F27405
+Dark Grey: 404040
+
+Light Blue: 0088A5
+Border color: #888
+
+Sparkline Colors:
+Orig: 76A4FB
+Grey: 888888
+*/
+
+/* Main Layouts */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    font-size: 100%;
+}
+
+
+
+
+#wrapper {
+    margin: auto auto;
+    width: 960px;
+}
+
+#header {
+    padding: 0px 10px 10px 10px;
+}
+
+#billboard {
+    float: right;
+    margin-top: 20px;
+    margin-right: 60px;
+}
+
+#logo {
+    float: left;
+}
+
+#wikitrend {
+    font-size: 225%;
+}
+
+#logo h1 a {
+    background: url("/assets/logo.png") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    height: 76px;
+    margin-top: -21px;
+    text-indent: -9999px;
+    width: 196px;
+}
+
+#search {
+    float: left;
+    margin-top: 30px;
+}
+
+#help {
+    font-size: 90%;
+    color: #888;  
+    margin-top: 5px;  
+    text-align: center;    
+}
+
+
+#search span {
+    font-size: 140%;
+    color: #888;
+}
+
+#content {
+    
+}
+
+#main-column {
+    width: 620px; /* same as timeline */
+}
+
+#side-column {
+    width: 300px; /* same as news module */
+}
+
+#bottom {
+  border-bottom: 1px dotted #BBB;
+}
+
+#footer {
+    font-size: 90%;
+    border-top: 1px dotted #888;
+    padding-top: 15px;
+    padding-bottom: 50px;
+    color: #888;
+}
+
+.section { /* For a horizontal section of content */
+    width: 940px; /* content - 20 (borders) */
+    padding: 0 0px;
+}
+
+.peoplesection { /* For a horizontal section of content */
+    width: 640px; /* content - 20 (borders) */
+    padding: 0 0px;
+}
+
+
+#timeline_chart {}
+#download {
+      text-align: right;
+}
+#news {
+}
+#biggest-movers {}
+#rising-articles {
+    margin-bottom: 30px;
+}
+
+#dropping-articles {}
+
+iframe.wikiframe {
+    width: 928px;  /* section - 10 (borders) - 2 (padding)*/
+    padding: 1px;
+    border: 5px solid #CCC;
+}
+
+.articles {
+    font-size: 95%;
+}
+
+i.arrow {
+ padding: 0px; margin: 0px; display: inline-block;
+}
+.arrow-left {
+ width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 5px 0 5px 10px;
+	border-color: transparent transparent transparent #090c0f;
+}
+
+.arrow-down {
+ width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 10px 5px 0 5px;
+	border-color: #090c0f transparent transparent transparent;
+}
+/* Headings */
+
+h1 {
+    padding: 10px 10px 10px 0;
+    font-size: 225%;
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin: 0;
+    font-size: 85%;
+}
+
+h2 span {
+    color: #888;
+}
+
+h3 {
+    font-size: 120%;
+    font-weight: bold;
+    padding-bottom: 4px;
+    border-bottom: 1px dotted #BBB;
+    color: #444;
+}
+
+h3 span {
+    color: #0088A5;
+}
+
+/* Table */
+
+table {
+    width: 620px; /* Left column width */
+}
+
+th {
+    color: #585858 ;
+    padding: 0 5px 5px 5px;
+    font-size: 100%;
+    text-transform: uppercase;
+}
+
+td {
+    color: #666;
+    padding: 5px 5px;
+}
+
+td.people {
+  padding-right: 0px;
+  text-align: center;  
+  
+}
+
+tr.peoplerow { 
+    BORDER-BOTTOM: 1px solid #000000;  
+  
+}
+
+td.pageviews {
+    text-align: right;
+    padding-right: 10px;
+}
+
+td.risingtitle {
+     font-size: 75%; 
+}
+
+.center {
+    text-align: center;
+}
+
+
+table#brands {
+    width: 440px;
+}
+
+table#rising {
+    width: 300px;
+}
+
+/* Links */
+
+a {
+    color: #226E78;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a img {
+    border: 0px;
+}
+
+#rising-articles a {
+    color: #C12B28;
+}
+
+#dropping-articles a {
+    color: #890000;
+}
+
+a.articlelink {
+    font-size: 110%;
+    font-weight: bold;
+}
+
+a.wikilink {
+    font-weight: bold;
+    color: #0088A5;
+    font-size: 110%;
+}
+
+
+/* Form */
+
+input#search_query {
+    border: 10px solid #DDD;
+    font-size: 120%;
+}
+
+.searchbutton {
+  width: 84px;
+  height: 30px;  
+}
+
+
+/* Generic */
+.left { float: left; }
+.right { float: right; }
+.clear { clear: both; }
+.grey { color: #888; }
+.textright { text-align: right; }
