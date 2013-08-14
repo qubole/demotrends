@@ -267,18 +267,6 @@ a.wikilink {
 }
 
 
-/* Form */
-
-input#search_query {
-    border: 10px solid #DDD;
-    font-size: 120%;
-}
-
-.searchbutton {
-  width: 84px;
-  height: 30px;  
-}
-
 
 /* Generic */
 .left { float: left; }
