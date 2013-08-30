@@ -37,23 +37,35 @@ def download_url(url, path):
           progress = current_progress
           sys.stdout.write('#')
           sys.stdout.flush()
-  sys.stdout.write('\n')
+    return 0
+  return 1
 
 def upload_file_to_s3(path, s3_url):
-  subprocess.check_call(["s3cmd", "sync", "%s/" % path, s3_url])
+  cmd = ["/usr/lib/s3cmd/s3cmd", "sync", "%s/" % path, s3_url]
+  print (cmd)
+  subprocess.check_call(cmd)
 
 def cleanup(path):
   subprocess.check_call(["rm", "-r", path])
   
 def process_day(year, month, day, temp_loc):
-  dump_url = "http://dumps.wikimedia.org/other/pagecounts-raw/%d/%d-%02d/pagecounts-%02d%02d%02d-%02d0000.gz"
+  dump_url = "http://dumps.wikimedia.org/other/pagecounts-raw/%d/%d-%02d/pagecounts-%02d%02d%02d-%02d%02d%02d.gz"
   temp = "%s/pagecounts-%02d0000.gz"
   temp_dir = "%s/%d-%02d-%02d" % (temp_loc, year, month, day)
   subprocess.check_call(["mkdir", "-p", temp_dir])
   for hour in range(0, 24):
-    url = dump_url % (year, year, month, year, month, day,hour)
     file = temp % (temp_dir, hour)
-    download_url(url, file)
+    success = 1
+    for min in range(0, 60):
+      for sec in range(0, 60):
+        url = dump_url % (year, year, month, year, month, day,hour, min, sec)
+        success = download_url(url, file)
+        if success == 0:
+          break
+      if success == 0:
+        break
+
+  sys.stdout.write('\n')
 
 def main(year, month, day, temp_loc, s3_loc):
   numdays = monthrange(year, month)[1] + 1
@@ -62,10 +74,10 @@ def main(year, month, day, temp_loc, s3_loc):
   cleanup(temp_loc)
 
 parser = OptionParser()
-parser.add_option("-y", "--year", dest="year", type="int", help = "Download files for this year")
-parser.add_option("-m", "--month", dest="month", type="int", help = "Download files for this month")
-parser.add_option("-d", "--day",  dest="day", type="int", help = "Download files for this day")
-parser.add_option("-t", "--temp", dest="temp_loc", default="/tmp/", help = "Temp location in local filesytem")
+parser.add_option("-y", "--year", dest="year", help = "Download files for this year")
+parser.add_option("-m", "--month", dest="month", help = "Download files for this month")
+parser.add_option("-d", "--day",  dest="day", help = "Download files for this day")
+parser.add_option("-t", "--temp", dest="temp_loc", help = "Temp location in local filesytem")
 parser.add_option("-s", "--s3", dest="s3url", help = "S3 location")
 (options, args) = parser.parse_args()
 
@@ -78,11 +90,11 @@ month = now.month
 day = now.day
 
 if not options.year is None:
-  year = options.year
+  year = int(options.year)
 if not options.month is None:
-  month = options.month
+  month = int(options.month)
 if not options.day is None:
-  day = options.day
+  day = int(options.day)
 
 
 main(year, month, day, options.temp_loc, options.s3url)
