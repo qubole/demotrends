@@ -10,13 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090621055343) do
-
-  create_table "companies", :force => true do |t|
-    t.integer  "page_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(:version => 20130814092648) do
 
   create_table "daily_timelines", :force => true do |t|
     t.integer  "page_id"
@@ -25,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20090621055343) do
     t.integer  "total_pageviews"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "on_date"
   end
 
   create_table "daily_trends", :force => true do |t|
@@ -33,38 +28,21 @@ ActiveRecord::Schema.define(:version => 20090621055343) do
     t.float    "error"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "date"
   end
 
-  create_table "featured_pages", :force => true do |t|
-    t.integer  "page_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "daily_trends", ["date"], :name => "index_daily_trends_on_date"
 
-  create_table "new_daily_timelines", :force => true do |t|
+  create_table "monthly_trends", :force => true do |t|
+    t.date     "date"
     t.integer  "page_id"
-    t.text     "dates"
-    t.text     "pageviews"
+    t.float    "trend"
     t.integer  "total_pageviews"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "new_daily_trends", :force => true do |t|
-    t.integer  "page_id"
-    t.float    "trend"
-    t.float    "error"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "new_pages", :force => true do |t|
-    t.string  "url"
-    t.string  "title"
-    t.integer "page_latest"
-    t.integer "total_pageviews"
-    t.float   "monthly_trend"
-  end
+  add_index "monthly_trends", ["date"], :name => "index_monthly_trends_on_date"
 
   create_table "pages", :force => true do |t|
     t.string  "url"
@@ -73,20 +51,6 @@ ActiveRecord::Schema.define(:version => 20090621055343) do
     t.integer "total_pageviews"
     t.float   "monthly_trend"
     t.boolean "featured",        :default => false
-  end
-
-  create_table "people", :force => true do |t|
-    t.integer  "page_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "weekly_trends", :force => true do |t|
-    t.integer  "page_id"
-    t.float    "trend"
-    t.float    "error"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
 end

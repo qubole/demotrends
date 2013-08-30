@@ -15,12 +15,12 @@ class PagesController < ApplicationController
     @max =  @dates.max
     
     # monthly trends 
-    @monthlytrend= MonthlyTrend.find(:all, :limit => APP_CONFIG['articles_per_page'] , :order => 'trend DESC', :conditions => ["date = ? and page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", @on_date, APP_CONFIG['blacklist']])
+    @monthlytrend= MonthlyTrend.find(:all, :limit => APP_CONFIG['articles_per_page'] , :order => 'trend DESC', :conditions => ["date = ? and page_id NOT IN (?)", @on_date, APP_CONFIG['blacklist']])
     @pages =[]
     @monthlytrend.each do |mt|
       @pages << mt.page
     end  
-      
+    Rails.logger.debug("#{@pages.inspect}")  
     unless params[:page]
       params[:page]='1'
     end  

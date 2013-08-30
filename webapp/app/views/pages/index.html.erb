@@ -21,7 +21,7 @@ $(function() {
  <%= javascript_tag "var MIN_DATE = " + @min.to_json %>
  <%= javascript_tag "var MAX_DATE = " + @max.to_json %>
 
-<div id ="first-setion" class="section">
+<div id ="first-section" class="section">
    <div>  
      <h2 style="display:inline-block;">Trending Topics as of <%= @on_date.strftime('%d-%m-%Y')%> </h2>
      <a href="#" id="dctl" style="padding-left=40px"> modify date <i class="arrow-left arrow" id="date-arrow"></i></a>
@@ -51,7 +51,7 @@ $(function() {
             <h3>Trending on <%= @on_date.strftime('%d-%m-%Y') %></h3>   
      
               <table id="rising">                  
-                <% DailyTrend.find(:all, :limit =>  APP_CONFIG['sidebar_articles'] ,:conditions => ["date = ? and page_id NOT IN (?) and page_id NOT IN (select page_id from featured_pages)", @on_date, APP_CONFIG['blacklist']], :order => 'trend DESC').each_with_index do |rising, index| %>
+                <% DailyTrend.find(:all, :limit =>  APP_CONFIG['sidebar_articles'] ,:conditions => ["date = ? and page_id NOT IN (?)", @on_date, APP_CONFIG['blacklist']], :order => 'trend DESC').each_with_index do |rising, index| %>
                   <tr >
                   <td class="risingtitle"><p><%= link_to (index + 1 + APP_CONFIG['articles_per_page']*(params[:page].to_i - 1)).to_s + ". " + rising.page.title.truncate(35), rising.page, :class => "articlelink"  %></p><%= link_to image_tag(rising.page.sparkline(@on_date).to_url, :alt => 'Recent Trend for ' + rising.page.title ) , rising.page %><BR>
                   <% unless APP_CONFIG['yahoo_boss_id'] == "REPLACEME" %>
