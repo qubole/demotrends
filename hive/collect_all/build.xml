@@ -1,0 +1,25 @@
+<project>
+  <target name="clean">
+    <delete dir="build"/>
+  </target>
+
+  <path id="compile.classpath">
+    <fileset dir="/usr/lib/hive/lib/">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+  <target name="compile">
+    <mkdir dir="build/classes"/>
+    <javac srcdir="src" destdir="build/classes">
+      <classpath refid="compile.classpath"/>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile">
+    <mkdir dir="build/jar"/>
+    <jar destfile="build/jar/collect_all.jar" basedir="build/classes">
+      <manifest>
+      </manifest>
+    </jar>
+  </target>
+</project>
