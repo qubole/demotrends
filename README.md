@@ -6,7 +6,7 @@ There are two main parts:
 2. Data pipeline hosted in *Qubole Data Service*
 
 ## Quick Start
-1. Register for a [Trial Plan] (www.qubole.com/try) in Qubole
+1. Register for a [Trial Plan] (http://www.qubole.com/try) in Qubole
 2. [Obtain the API key] (http://www.qubole.com/qds-api-reference/authentication/)
 3. Run the commands in the *commands* directory
 
