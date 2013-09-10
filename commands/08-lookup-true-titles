@@ -1,0 +1,4 @@
+insert overwrite table normalized_pagecounts partition(`date`='$day$')
+select pl.page_id page_id, REGEXP_REPLACE(pl.true_title, '_', ' ') page_title, pl.true_title page_url, views, bytes_sent
+ FROM page_lookup pl JOIN filtered_pagecounts fp 
+  on fp.page_title = pl.redirect_title where fp.`date`='$day$';
