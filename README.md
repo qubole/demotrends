@@ -5,6 +5,11 @@ There are two main parts:
 1. Webapp in Ruby on Rails.
 2. Data pipeline hosted in *Qubole Data Service*
 
+## Quick Start
+1. Register for a [Trial Plan] (www.qubole.com/try) in Qubole
+2. [Obtain the API key] (http://www.qubole.com/qds-api-reference/authentication/)
+3. Run the commands in the *commands* directory
+
 ## Webapp
 
 Code required to setup the demo trends website (http://demotrends.qubole.com)
