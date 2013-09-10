@@ -1,0 +1,3 @@
+DROP TABLE if exists filtered_pagecounts;
+CREATE TABLE filtered_pagecounts (`group` STRING, `page_title` STRING, `views` BIGINT, `bytes_sent` BIGINT)
+  PARTITIONED BY (`date` STRING);

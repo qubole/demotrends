@@ -1,0 +1,15 @@
+FROM pagecounts pvs
+INSERT OVERWRITE TABLE filtered_pagecounts PARTITION(`date`='$day$')
+  SELECT pvs.`group`, pvs.page_title, pvs.views, pvs.bytes_sent, pvs.`date`
+    where not pvs.page_title RLIKE
+    '(MEDIA|SPECIAL||Talk|User|User_talk|Project|Project_talk|File|File_talk|MediaWiki|MediaWiki_talk|Template|Template_talk|Help|Help_talk|Category|Category_talk|Portal|Wikipedia|Wikipedia_talk)\:(.*)' and 
+    pvs.`group` = 'en' and 
+    not pvs.page_title RLIKE '([a-z])(.*)' and 
+    not pvs.page_title RLIKE '(.*).(jpg|gif|png|JPG|GIF|PNG|txt|ico)' and 
+    pvs.page_title <> '404_error/' and 
+    pvs.page_title <> 'Main_Page' and 
+    pvs.page_title <> 'Hypertext_Transfer_Protocol' and
+    pvs.page_title <> 'Favicon.ico' and 
+    pvs.page_title <> 'Search' and 
+    pvs.`date` = '$day$';
+

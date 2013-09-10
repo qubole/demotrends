@@ -1,0 +1,3 @@
+DROP TABLE if exists normalized_pagecounts;
+CREATE TABLE normalized_pagecounts (`page_id` BIGINT, `page_title` STRING, `page_url` STRING, `views` BIGINT, `bytes_sent` BIGINT)
+  PARTITIONED BY (`date` STRING);
