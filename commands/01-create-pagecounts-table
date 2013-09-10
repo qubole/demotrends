@@ -1,0 +1,4 @@
+DROP TABLE if exists pagecounts;
+CREATE EXTERNAL TABLE pagecounts (`group` STRING, `page_title` STRING, `views` BIGINT, `bytes_sent` BIGINT) 
+  PARTITIONED BY (`dt` STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ' ' LOCATION 's3n://paid-qubole/default-datasets/demotrends/pagecounts/';
+ALTER TABLE pagecounts recover partitions;

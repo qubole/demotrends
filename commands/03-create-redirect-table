@@ -1,0 +1,2 @@
+DROP TABLE if exists redirect;
+CREATE EXTERNAL TABLE redirect( `rd_from` BIGINT, `page_title` STRING)  ROW FORMAT DELIMITED FIELDS TERMINATED BY '\001' LOCATION 's3n://paid-qubole/default-datasets/demotrends/redirect/'; 

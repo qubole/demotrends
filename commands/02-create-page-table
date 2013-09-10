@@ -1,0 +1,2 @@
+DROP TABLE if exists page;
+CREATE EXTERNAL TABLE page (`page_id` BIGINT, `page_latest` BIGINT, `page_title` STRING)  ROW FORMAT DELIMITED FIELDS TERMINATED BY '\001' LOCATION 's3n://paid-qubole/default-datasets/demotrends/page/';

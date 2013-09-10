@@ -20,3 +20,18 @@ Code required to setup the demo trends website (http://demotrends.qubole.com)
 
 #### Start the webapp
 1.  Run `./webapp/script/restart_server.sh`
+
+## Data Pipeline
+### Hive
+Directory contains two UDFs required by the data pipeline:
+1. collect_all - A JAR UDF
+2. hive_trend_mapper - A Python UDF
+
+### Scripts
+Directory contains scripts that are run in a *Shell Command*.
+1. pagecount_dump.py - A script to download ONE days *pagecounts* data from the Wikimedia website.
+
+### Commands
+Directory contains all the commands to process one day's worth of data.
+The sequence of commands is important. The filenames start with a number specifying the sequence it should be executed in.
+Run the scripts using [Qubole Python SDK] (https://github.com/qubole/qds-sdk-py)
