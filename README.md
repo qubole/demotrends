@@ -1,9 +1,15 @@
 # DemoTrends (http://demotrends.qubole.com)
 
 A Big Data app that displays the topics that are trending on Wikipedia.
+
 There are two main parts:
+
 1. Webapp in Ruby on Rails.
+
 2. Data pipeline hosted in *Qubole Data Service*
+
+
+You can read more about demotrends in this [Blog](https://www.qubole.com/blog/big-data/build-a-data-pipeline-with-qubole)
 
 ## Quick Start
 1. Register for a [Trial Plan] (http://www.qubole.com/try) in Qubole
@@ -40,3 +46,6 @@ Directory contains scripts that are run in a *Shell Command*.
 Directory contains all the commands to process one day's worth of data.
 The sequence of commands is important. The filenames start with a number specifying the sequence it should be executed in.
 Run the scripts using [Qubole Python SDK] (https://github.com/qubole/qds-sdk-py)
+
+### Airflow
+If you want to use [Apache Airflow](https://github.com/apache/incubator-airflow) to manage the pipeline, please look at `airflow` folder. 
