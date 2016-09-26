@@ -1,6 +1,6 @@
 # Demotrends using Apache Airflow
 
-If you want to use [Apache Airflow](https://github.com/apache/incubator-airflow) to manage the Demotredns workflow, you can make use of following 2 python scripts:
+If you want to use [Apache Airflow](https://github.com/apache/incubator-airflow) to manage the Demotrends workflow, you can make use of following 2 python scripts:
 
 ## process_static_data.py
 Should run once to create `page` and `redirect` table in Hive. Ideally one should download [enwiki-latest-page.sql.gz](http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-page.sql.gz) and [enwiki-latest-redirect.sql.gz](http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-redirect.sql.gz) and load them in mysql instance and then use DB Import (Sqoop) to populate the data for these 2 hive tables. But for simplicity Qubole has done it and placed data on S3. One just need to create hive tables against them. 
